@@ -6,6 +6,6 @@ Para facilitar a instalação das dependências, foi utilizado o pipenv. Por ess
 
 
 ## Rodando o projeto localmente
-Sempre que precisar rodar o projeto localmente, lembre-se de ativar o ambiente virtual com o comando `pipenv shell` e em seguida com o comando `python manage.py runserver` ou se preferir apenas `./ manage.py runserver`.
+Sempre que precisar rodar o projeto localmente, lembre-se de ativar o ambiente virtual com o comando `pipenv shell` e em seguida com o comando `python manage.py runserver` ou se preferir apenas `./manage.py runserver`.
 
 **DOCUMENTO EM CONTRUÇÃO**
