@@ -1,4 +1,11 @@
-# Estudando Django
-Este repositório foi criado com a intenção de estudar diversos tutoriais de Django pela internet (sites e vídeos do YouTube), com o intuito de aprender o máximo possível de conteúdo sobre o Django de forma gratuita. Cada tutorial estará separado em um projeto em uma branch diferente, considerando o nome do autor do post ou do vídeo. Seguem abaixo a lista de branches e suas respectivas origens:
+# Plataforma de administração de clientes
+Nesse tutorial Dennis Ivy tem o objetivo de criar uma espécie de CRM, para explorar as funcionalidades do Django, com o básico do que um site precisa para funcionar.
 
- - getting_started_versao_3-0/dennis_ivy: https://www.youtube.com/watch?v=xv_bwpA_aEA
+## Dependências do projeto
+Para facilitar a instalação das dependências, foi utilizado o pipenv. Por esse motivo, garanta que possui o pipenv instalado em sua máquina e antes de tudo, instale as dependências do projeto com o comando `pipenv install`.
+
+
+## Rodando o projeto localmente
+Sempre que precisar rodar o projeto localmente, lembre-se de ativar o ambiente virtual com o comando `pipenv shell` e em seguida com o comando `python manage.py runserver` ou se preferir apenas `./ manage.py runserver`.
+
+**DOCUMENTO EM CONTRUÇÃO**
