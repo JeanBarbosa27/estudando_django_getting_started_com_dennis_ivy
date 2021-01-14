@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from accounts.models import *
+from accounts.forms import OrderForm
 
 
 def dashboard(request):
@@ -11,7 +12,7 @@ def dashboard(request):
 
     context = {
         'customers': customers,
-        'orders': orders,
+        'orders': orders.order_by('-date_created')[:5],
         'total_orders': total_orders,
         'total_pending_orders': total_pending_orders,
         'total_delivered_orders': total_delivered_orders,
@@ -35,3 +36,40 @@ def customers(request, customer_id):
     }
 
     return render(request, 'pages/customers.html', context)
+
+def create_order(request):
+    form = OrderForm()
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    context = {'form': form, 'title': 'Create New Order'}
+    return render(request, 'pages/order_form.html', context)
+
+def update_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    form = OrderForm(instance=order)
+
+    if request.method == 'POST':
+        form = OrderForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+
+    context = {
+        'form': form,
+        'title': f"Update Order {order}"
+    }
+
+    return render(request, 'pages/order_form.html', context)
+
+def delete_order(request, order_id):
+    order = Order.objects.get(id=order_id)
+    if request.method == 'POST':
+        order.delete()
+        return redirect('dashboard')
+
+    return render(request, 'pages/delete_order.html', {'order': order})

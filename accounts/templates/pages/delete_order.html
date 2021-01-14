@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block head_title %}Delete order {{order}}{% endblock head_title %}
+
+{% block content %}
+<div class="row d-flex justify-content-center align-items-center" style="width: 100vw;height: 90vh">
+	<div class="d-flex justify-content-center align-items-center col-md-4">
+        <form
+            action="{% url 'delete_order' order.id %}"
+            method="post"
+            class="card card-body"
+        >
+            {% csrf_token %}
+            <label class="text-center mb-3">Are you sure you want to delete "{{order}}"?</label>
+            <div class="btn-group">
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="btn btn-sm btn-warning"
+                >Cancel</a>
+                <button
+                    type="submit"
+                    class="btn btn-sm btn-danger"
+                >Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
