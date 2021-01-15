@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block head_title %}User {{request.user}}{% endblock head_title%}
+
+{% block content %}
+{% include 'partials/_status.html' %}
+
+<h1>User page</h1>
+{% endblock content %}
