@@ -4,11 +4,26 @@
 {% block content %}
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-12">
         <div class="card card-body">
             <form action="" method="post">
                 {% csrf_token %}
-                {{form}}
+
+                {# Formulário de criação de pedido por cliente #}
+                {% if formset %}
+                    {{formset.management_form}}
+                    {% for field in formset %}
+                        {{field}}
+                        <hr/>
+                    {% endfor %}
+                {% endif %}
+
+                {# Formulário de atualização de pedido por cliente #}
+                {% if form %}
+                    {{form}}
+                    <br/>
+                {% endif %}
+
                 <button type="submit" class="btn btn-sm btn-info">Submit</button>
             </form>
         </div>
