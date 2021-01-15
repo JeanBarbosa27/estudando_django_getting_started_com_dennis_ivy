@@ -3,6 +3,7 @@ from django.forms import inlineformset_factory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 from accounts.models import *
 from accounts.forms import OrderForm, CreateUserForm
@@ -16,8 +17,10 @@ def register_page(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
             username = form.cleaned_data['username']
+            group = Group.objects.get(name="customer")
+            user.groups.add(group)
 
             message = f"Account was created for {username}."
             messages.success(request, message)
