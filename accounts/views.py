@@ -7,55 +7,54 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import *
 from accounts.forms import OrderForm, CreateUserForm
 from accounts.filters import OrderFilter
+from accounts.decorators import unauthenticated_user, allowed_users, admin_only
 
-
+@unauthenticated_user
 def register_page(request):
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-    else:
-        form = CreateUserForm()
+    form = CreateUserForm()
 
-        if request.method == 'POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                username = form.cleaned_data['username']
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
 
-                message = f"Account was created for {username}."
-                messages.success(request, message)
+            message = f"Account was created for {username}."
+            messages.success(request, message)
 
-                return redirect('login')
+            return redirect('login')
 
-        return render(request, 'pages/register.html', {'form': form})
+    return render(request, 'pages/register.html', {'form': form})
 
-
+@unauthenticated_user
 def login_page(request):
-    if request.user.is_authenticated:
-        return redirect('dashboard')
-    else:
-        if request.method == 'POST':
-            username = request.POST['username']
-            password = request.POST['password']
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
 
-            user = authenticate(request, username=username, password=password)
+        user = authenticate(request, username=username, password=password)
 
-            if user is not None:
-                login(request, user)
-                return redirect('dashboard')
-            else:
-                messages.error(request, 'Username or password is incorrect!')
+        if user is not None:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Username or password is incorrect!')
 
 
-        return render(request, 'pages/login.html')
+    return render(request, 'pages/login.html')
 
 
 def logout_user(request):
     logout(request)
     return redirect('login')
 
+def user_page(request):
+    return render(request, 'pages/user.html')
 
 @login_required(login_url='login')
+@admin_only
 def dashboard(request):
+    print('entrou no método')
     customers = Customer.objects.all()
     orders = Order.objects.all()
     total_orders = orders.count()
@@ -74,12 +73,14 @@ def dashboard(request):
 
 
 @login_required(login_url='login')
+@admin_only
 def products(request):
     products = Product.objects.all()
     return render(request, 'pages/products.html', {'products': products})
 
 
 @login_required(login_url='login')
+@admin_only
 def customers(request, customer_id):
     customer = Customer.objects.get(id=customer_id)
     orders = customer.order_set.all()
@@ -99,6 +100,7 @@ def customers(request, customer_id):
 
 
 @login_required(login_url='login')
+@admin_only
 def create_order(request, customer_id):
     customer = Customer.objects.get(id=customer_id)
     OrderFormSet = inlineformset_factory(
@@ -117,6 +119,7 @@ def create_order(request, customer_id):
 
 
 @login_required(login_url='login')
+@admin_only
 def update_order(request, order_id):
     order = Order.objects.get(id=order_id)
     form = OrderForm(instance=order)
@@ -136,10 +139,10 @@ def update_order(request, order_id):
 
 
 @login_required(login_url='login')
+@admin_only
 def delete_order(request, order_id):
     order = Order.objects.get(id=order_id)
     if request.method == 'POST':
         order.delete()
         return redirect('dashboard')
-
     return render(request, 'pages/delete_order.html', {'order': order})
