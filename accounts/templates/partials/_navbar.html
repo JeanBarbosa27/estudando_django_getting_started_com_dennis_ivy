@@ -15,4 +15,6 @@
         </li>
       </ul>
     </div>
+    <span class="text-light lead">Hello, {{request.user}}</span>
+    <a href="{% url 'logout' %}" class="ml-3 text-light">Logout</a>
 </nav>
