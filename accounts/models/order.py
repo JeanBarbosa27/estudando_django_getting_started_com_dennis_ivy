@@ -9,9 +9,10 @@ class Order(models.Model):
         ('Delivered', 'Delivered'),
     )
 
-    status = models.CharField(max_length=200, null=True, choices=STATUS)
+    status = models.CharField(max_length=25, null=True, choices=STATUS)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True)
+    notes = models.CharField(max_length=200, null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def __str__(self):
