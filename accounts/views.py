@@ -3,6 +3,7 @@ from django.forms import inlineformset_factory
 
 from accounts.models import *
 from accounts.forms import OrderForm
+from accounts.filters import OrderFilter
 
 
 def dashboard(request):
@@ -31,10 +32,14 @@ def customers(request, customer_id):
     orders = customer.order_set.all()
     total_orders = orders.count()
 
+    filter_orders = OrderFilter(request.GET, queryset=orders)
+    orders = filter_orders.qs
+
     context = {
         'customer': customer,
         'orders': orders,
         'total_orders': total_orders,
+        'filter_orders': filter_orders.form,
     }
 
     return render(request, 'pages/customers.html', context)

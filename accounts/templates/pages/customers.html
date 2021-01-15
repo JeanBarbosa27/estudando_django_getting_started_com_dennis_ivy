@@ -45,9 +45,16 @@ Customers
     <div class="col">
         <div class="card card-body">
             <form method="get">
-
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
+                {{filter_orders}}
+                <div class="btn-group ml-3">
+                    <button class="btn btn-warning" type="reset">Clear Form</button>
+                    <a
+                        href="{% url 'customer' customer.id %}"
+                        class="btn btn-outline-warning"
+                    >Clear Search</a>
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -59,8 +66,9 @@ Customers
         <div class="card card-body">
             <table class="table table-sm">
                 <tr>
-                    <th>Product</th>
                     <th>Category</th>
+                    <th>Product</th>
+                    <th>Notes</th>
                     <th>Date Orderd</th>
                     <th>Status</th>
                     <th>Update</th>
@@ -69,8 +77,9 @@ Customers
 
                 {% for order in orders %}
                 <tr>
-                    <td>{{order.product}}</td>
                     <td>{{order.product.category}}</td>
+                    <td>{{order.product}}</td>
+                    <td>{{order.notes}}</td>
                     <td>{{order.date_created}}</td>
                     <td>{{order.status}}</td>
                     <td>
@@ -87,6 +96,8 @@ Customers
                     </td>
                 </tr>
                 {% endfor %}
+
+                <!-- TODO: Pagination of orders-->
 
             </table>
         </div>
