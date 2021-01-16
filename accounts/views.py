@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 
 from accounts.models import *
-from accounts.forms import OrderForm, CreateUserForm
+from accounts.forms import OrderForm, CreateUserForm, ProfileForm
 from accounts.filters import OrderFilter
 from accounts.decorators import unauthenticated_user, allowed_users, admin_only
 
@@ -73,6 +73,16 @@ def user_page(request):
     }
 
     return render(request, 'pages/user.html', context)
+
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer'])
+def profile_page(request):
+    form = ProfileForm()
+
+    context = {'form': form}
+    return render(request, 'pages/profile.html', context)
+
 
 @login_required(login_url='login')
 @admin_only
