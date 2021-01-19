@@ -78,10 +78,15 @@ def user_page(request):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer'])
 def profile_page(request):
-    form = ProfileForm()
+    customer = request.user.customer
+    form = ProfileForm(instance=customer)
 
-    context = {'form': form}
-    return render(request, 'pages/profile.html', context)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'pages/profile.html', {'form': form})
 
 
 @login_required(login_url='login')
