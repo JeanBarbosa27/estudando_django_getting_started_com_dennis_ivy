@@ -14,5 +14,6 @@ def create_customer_profile(sender, created, instance, **kwargs):
         Customer.objects.create(
             user=instance,
             name=instance.username,
+            email=instance.email,
         )
         print(f"Profile created for {instance.username}")
