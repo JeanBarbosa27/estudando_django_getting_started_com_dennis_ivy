@@ -84,6 +84,11 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5434'
     }
+# Original seguindo a playlist do YouTube
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
 }
 
 
