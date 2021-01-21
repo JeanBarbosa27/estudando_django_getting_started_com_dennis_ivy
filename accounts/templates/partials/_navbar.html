@@ -1,4 +1,9 @@
 {% load static %}
+{% load helpers %}
+
+{% url 'dashboard' as dashboard_url %}
+{% url 'products' as products_url %}
+{% url 'profile' as profile_url %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a href="{% url 'dashboard' %}">
@@ -10,17 +15,17 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         {% if request.user.is_staff %}
-        <li class="nav-item active">
+        <li class="nav-item {% link_is_active request dashboard_url %}">
             <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {% link_is_active request products_url %}">
             <a class="nav-link" href="{% url 'products' %}">Products</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/admin">Admin</a>
+            <a class="nav-link" href="/admin" target="_blank">Admin</a>
         </li>
         {% else %}
-        <li class="nav-item">
+        <li class="nav-item {% link_is_active request profile_url %}">
             <a class="nav-link" href="{% url 'profile' %}">Settings</a>
         </li>
         {% endif %}
