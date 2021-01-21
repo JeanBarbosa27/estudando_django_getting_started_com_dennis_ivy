@@ -1,1 +1,1 @@
-from .helpers import link_is_active
+from .helpers import is_link_active
