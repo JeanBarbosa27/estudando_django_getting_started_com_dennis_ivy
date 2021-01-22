@@ -1,13 +1,13 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from . import views
+from accounts.views import *
 
 
 urlpatterns = [
-    path('register/', views.register_page, name='register'),
-    path('login/', views.login_page, name='login'),
-    path('logout/', views.logout_user, name='logout'),
+    path('register/', RegisterPageView.as_view(), name='register'),
+    path('login/', LoginPageView.as_view(), name='login'),
+    path('logout/', LogoutUserView.as_view(), name='logout'),
 
     path(
         'reset-password',
@@ -38,13 +38,13 @@ urlpatterns = [
         name="password_reset_complete"
     ),
 
-    path('', views.dashboard, name='dashboard'),
-    path('user-page/', views.user_page, name='user_page'),
-    path('profile/', views.profile_page, name='profile'),
-    path('products/', views.products, name='products'),
+    path('', DashboardView.as_view(), name='dashboard'),
+    path('user-page/', UserPageView.as_view(), name='user_page'),
+    path('profile/', ProfilePageView.as_view(), name='profile'),
+    path('products/', ProductsView.as_view(), name='products'),
 
-    path('customer/<str:customer_id>', views.customers, name='customer'),
-    path('create-order/<str:customer_id>', views.create_order, name='create_order'),
-    path('update-order/<str:order_id>', views.update_order, name='update_order'),
-    path('delete-order/<str:order_id>', views.delete_order, name='delete_order'),
+    path('customer/<str:customer_id>', CustomersView.as_view(), name='customer'),
+    path('create-order/<str:customer_id>', CreateOrderView.as_view(), name='create_order'),
+    path('update-order/<str:order_id>', UpdateOrderView.as_view(), name='update_order'),
+    path('delete-order/<str:order_id>', DeleteOrderView.as_view(), name='delete_order'),
 ]
