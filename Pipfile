@@ -10,6 +10,7 @@ django = "*"
 django-filter = "*"
 pillow = "*"
 psycopg2-binary = "*"
+django-widget-tweaks = "*"
 
 [requires]
 python_version = "3.6"
