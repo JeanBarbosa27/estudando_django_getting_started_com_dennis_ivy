@@ -1,23 +1,28 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
-{% block head_title %}
-Customers
-{% endblock head_title %}
+{% block head_title %}Customer | {{customer}}{% endblock head_title %}
 
 {% block content %}
 <br>
-
 <div class="row">
     <div class="col-md">
         <div class="card card-body">
-            <h5>Customer:</h5>
+            <h5>Customer: {{customer}}</h5>
             <hr>
             <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
             <a
                 href="{% url 'create_order' customer.id %}"
                 class="btn btn-outline-info  btn-sm btn-block"
             >Place Orders</a>
-
+            <button
+                type="button"
+                class="btn btn-sm btn-outline-info btn-block"
+                data-toggle="collapse"
+                data-target="#filter-form"
+                aria-expanded="false"
+                aria-controls="filter-form"
+            >Filter orders</button>
         </div>
     </div>
 
@@ -39,20 +44,27 @@ Customers
     </div>
 </div>
 
-
-<br>
-<div class="row">
-    <div class="col">
+<div class="row collapse mt-3" id="filter-form">
+    <div class="col-12">
         <div class="card card-body">
             <form method="get">
-                {{filter_orders}}
-                <div class="btn-group ml-3">
-                    <button class="btn btn-warning" type="reset">Clear Form</button>
+                {% for field in filter_orders %}
+                    <div class="input-group mb-3">
+                        <div class="input-group-append">
+                            <label for="{{field.id_for_label}}" class="input-group-text">
+                                {{field.label}}
+                            </label>
+                        </div>
+                        {{field|add_class:"form-control"}}
+                    </div>
+                {% endfor %}
+                <div class="col-12 btn-group">
+                    <button class="btn btn-warning" type="reset">Clear</button>
                     <a
                         href="{% url 'customer' customer.id %}"
-                        class="btn btn-outline-warning"
-                    >Clear Search</a>
-                    <button class="btn btn-primary" type="submit">Search</button>
+                        class="btn btn-outline-danger"
+                    >Clear filters</a>
+                    <button class="btn btn-primary" type="submit">Apply filters</button>
                 </div>
             </form>
         </div>
@@ -62,5 +74,4 @@ Customers
 <br>
 
 {% include 'partials/_customer_orders_table.html' %}
-
 {% endblock content %}

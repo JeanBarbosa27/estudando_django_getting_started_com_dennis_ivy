@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load helpers %}
+
+
 {% block head_title %}{{title}}{% endblock head_title %}
 
 {% block content %}
@@ -12,16 +16,44 @@
                 {# Formulário de criação de pedido por cliente #}
                 {% if formset %}
                     {{formset.management_form}}
-                    {% for field in formset %}
-                        {{field}}
+                    {% for form in formset %}
+                        {% for field in form %}
+                        {% field_label_in_list field.label 'Product, Status, Delete' as show_field %}
+                            {% if show_field %}
+                                <div class="input-group mb-3 col-md-4">
+                                    <div class="input-group-append">
+                                        <label
+                                            for="field.id_for_label"
+                                            class="input-group-text"
+                                        >
+                                            {{field.label}}
+                                        </label>
+                                    </div>
+
+                                    {% if field.label == 'Delete' %}
+                                    {{field|add_class:"form-control col-2"}}
+                                    {% else %}
+                                    {{field|add_class:"form-control"}}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
                         <hr/>
                     {% endfor %}
                 {% endif %}
 
                 {# Formulário de atualização de pedido por cliente #}
                 {% if form %}
-                    {{form}}
-                    <br/>
+                    {% for field in form %}
+                        <div class="input-group mb-3">
+                            <div class="input-group-append">
+                                <label for="{{field.id_for_label}}" class="input-group-text">
+                                    {{field.label}}
+                                </label>
+                            </div>
+                            {{field|add_class:"form-control"}}
+                        </div>
+                    {% endfor %}
                 {% endif %}
 
                 <button type="submit" class="btn btn-sm btn-info">Submit</button>

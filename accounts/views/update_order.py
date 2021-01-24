@@ -28,10 +28,3 @@ class UpdateOrderView(View):
         if form.is_valid():
             form.save()
             return redirect('dashboard')
-
-    # context = {
-    #     'form': form,
-    #     'title': f"Update Order {order}"
-    # }
-
-    # return render(request, 'pages/order_form.html', context)
